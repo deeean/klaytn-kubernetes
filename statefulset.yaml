@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ken
+  namespace: klaytn
+  labels:
+    app: klaytn
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ken
+  serviceName: ken
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  template:
+    metadata:
+      labels:
+        app: ken
+    spec:
+      terminationGracePeriodSeconds: 10
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: purpose
+                    operator: In
+                    values:
+                      - klaytn
+      containers:
+        - name: ken
+          image: klaytn/klaytn:v1.7.3
+          imagePullPolicy: IfNotPresent
+          args:
+            - "ken"
+            - "--cypress"
+            - "--metrics"
+            - "--prometheus"
+            - "--multichannel"
+            - "--rpc"
+            - "--rpcapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
+            - "--rpcport=8551"
+            - "--rpcaddr=0.0.0.0"
+            - "--rpccorsdomain=*"
+            - "--rpcvhosts=*"
+            - "--ws"
+            - "--wsapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
+            - "--wsaddr=0.0.0.0"
+            - "--wsorigins=*"
+            - "--datadir=/chaindata"
+            - "--port=32323"
+            - "--subport=32324"
+            - "--srvtype=fasthttp"
+            - "--verbosity=3"
+            - "--syncmode=full"
+            - "--maxconnections=10"
+            - "--txpool.exec-slots.all=4096"
+            - "--txpool.nonexec-slots.all=4096"
+            - "--txpool.exec-slots.account=4096"
+            - "--txpool.nonexec-slots.account=4096"
+            - "--sendertxhashindexing"
+            - "--state.tries-in-memory=50"
+            - "--state.trie-cache-limit=10240"
+          ports:
+            - containerPort: 8551
+            - containerPort: 8552
+            - containerPort: 32323
+            - containerPort: 32324
+            - containerPort: 61001
+          livenessProbe:
+            httpGet:
+              path: "/"
+              port: 8551
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: chaindata
+              mountPath: /chaindata
+  volumeClaimTemplates:
+    - metadata:
+        name: chaindata
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "gp3"
+        resources:
+          requests:
+            storage: 3000Gi

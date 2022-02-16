@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ken
+  namespace: klaytn
+  labels:
+    app: klaytn
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ken
+  serviceName: ken
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  template:
+    metadata:
+      labels:
+        app: ken
+    spec:
+      terminationGracePeriodSeconds: 10
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: purpose
+                    operator: In
+                    values:
+                      - klaytn
+      containers:
+        - name: ken
+          image: busybox:1.34.1
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-ec", "while :; do df -h; echo ''; sleep 5 ; done"]
+          volumeMounts:
+            - name: chaindata
+              mountPath: /chaindata
+  volumeClaimTemplates:
+    - metadata:
+        name: chaindata
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "gp3"
+        resources:
+          requests:
+            storage: 3000Gi

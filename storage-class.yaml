@@ -1,0 +1,13 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: gp3
+provisioner: ebs.csi.aws.com
+parameters:
+  csi.storage.k8s.io/fstype: "ext4"
+  type: "gp3"
+  iops: "12000"
+  throughput: "1000"
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
