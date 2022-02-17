@@ -51,7 +51,7 @@ spec:
             - "--wsapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
             - "--wsaddr=0.0.0.0"
             - "--wsorigins=*"
-            - "--datadir=/chaindata"
+            - "--datadir=/chaindata/cypress"
             - "--port=32323"
             - "--subport=32324"
             - "--srvtype=fasthttp"
