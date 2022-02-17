@@ -2,7 +2,7 @@ apiVersion: snapscheduler.backube/v1
 kind: SnapshotSchedule
 metadata:
   name: daily
-  namespace: klaytn
+  namespace: cypress
 spec:
   retention:
     maxCount: 2

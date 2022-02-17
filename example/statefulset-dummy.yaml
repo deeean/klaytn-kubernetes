@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: ken
-  namespace: klaytn
+  name: ken-cypress
+  namespace: cypress
   labels:
-    app: klaytn
+    app: ken-cypress
 spec:
   revisionHistoryLimit: 2
   replicas: 1
   selector:
     matchLabels:
-      app: ken
-  serviceName: ken
+      app: ken-cypress
+  serviceName: ken-cypress
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: ken
+        app: ken-cypress
     spec:
       terminationGracePeriodSeconds: 10
       affinity:
@@ -30,22 +30,24 @@ spec:
                   - key: purpose
                     operator: In
                     values:
-                      - klaytn
+                      - cypress
       containers:
-        - name: ken
-          image: busybox:1.34.1
+        - name: ken-cypress
+          image: ubuntu:18.04
           imagePullPolicy: IfNotPresent
-          command: ["/bin/sh", "-ec", "while :; do df -h; echo ''; sleep 5 ; done"]
+          command:
+            - "sleep"
+            - "31556736"
           volumeMounts:
-            - name: chaindata
-              mountPath: /chaindata
+            - name: kend
+              mountPath: /kend
   volumeClaimTemplates:
     - metadata:
-        name: chaindata
+        name: kend
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: "gp3"
+        storageClassName: "io2"
         resources:
           requests:
             storage: 3000Gi

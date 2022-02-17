@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: data-ken-0
-  namespace: klaytn
+  name: kend-ken-cypress-1
+  namespace: cypress
   labels:
     app: ken
 spec:

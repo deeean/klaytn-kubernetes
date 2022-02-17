@@ -3,6 +3,8 @@ Running an Klaytn Endpoint Node on Kubernetes
 
 ## Dependencies
 
+
+### Custom Resource Definition
 ```shell
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshotclasses.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/master/client/config/crd/snapshot.storage.k8s.io_volumesnapshotcontents.yaml

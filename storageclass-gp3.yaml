@@ -6,8 +6,8 @@ provisioner: ebs.csi.aws.com
 parameters:
   csi.storage.k8s.io/fstype: "ext4"
   type: "gp3"
-  iops: "12000"
+  iops: "16000"
   throughput: "1000"
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer

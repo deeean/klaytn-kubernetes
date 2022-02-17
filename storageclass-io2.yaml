@@ -1,0 +1,13 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: io2
+provisioner: ebs.csi.aws.com
+parameters:
+  csi.storage.k8s.io/fstype: "ext4"
+  type: "io2"
+  iopsPerGB: "10"
+  allowAutoIOPSPerGBIncrease: "true"
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer

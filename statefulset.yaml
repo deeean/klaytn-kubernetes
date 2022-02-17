@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: ken
-  namespace: klaytn
+  name: ken-cypress
+  namespace: cypress
   labels:
-    app: klaytn
+    app: ken-cypress
 spec:
   revisionHistoryLimit: 2
   replicas: 1
   selector:
     matchLabels:
-      app: ken
-  serviceName: ken
+      app: ken-cypress
+  serviceName: ken-cypress
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: ken
+        app: ken-cypress
     spec:
       terminationGracePeriodSeconds: 10
       affinity:
@@ -30,9 +30,9 @@ spec:
                   - key: purpose
                     operator: In
                     values:
-                      - klaytn
+                      - cypress
       containers:
-        - name: ken
+        - name: ken-cypress
           image: klaytn/klaytn:v1.7.3
           imagePullPolicy: IfNotPresent
           args:
@@ -51,7 +51,7 @@ spec:
             - "--wsapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
             - "--wsaddr=0.0.0.0"
             - "--wsorigins=*"
-            - "--datadir=/chaindata/cypress"
+            - "--datadir=/kend/cypress"
             - "--port=32323"
             - "--subport=32324"
             - "--srvtype=fasthttp"
@@ -62,15 +62,12 @@ spec:
             - "--txpool.nonexec-slots.all=4096"
             - "--txpool.exec-slots.account=4096"
             - "--txpool.nonexec-slots.account=4096"
-            - "--sendertxhashindexing"
-            - "--state.tries-in-memory=50"
-            - "--state.trie-cache-limit=10240"
+#            - "--sendertxhashindexing"
+#            - "--state.tries-in-memory=50"
+#            - "--state.trie-cache-limit=10240"
           ports:
             - containerPort: 8551
             - containerPort: 8552
-            - containerPort: 32323
-            - containerPort: 32324
-            - containerPort: 61001
           livenessProbe:
             httpGet:
               path: "/"
@@ -78,15 +75,15 @@ spec:
             initialDelaySeconds: 15
             timeoutSeconds: 5
           volumeMounts:
-            - name: chaindata
-              mountPath: /chaindata
+            - name: kend
+              mountPath: /kend
   volumeClaimTemplates:
     - metadata:
-        name: chaindata
+        name: kend
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: "gp3"
+        storageClassName: "io2"
         resources:
           requests:
             storage: 3000Gi
