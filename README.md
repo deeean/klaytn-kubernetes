@@ -1,4 +1,4 @@
-# k8s-k4n (WIP)
+# klaytn-kubernetes
 Running an Klaytn Endpoint Node on Kubernetes
 
 ## Dependencies
