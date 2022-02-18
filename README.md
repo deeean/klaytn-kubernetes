@@ -1,6 +1,8 @@
 # klaytn-kubernetes
 Running an Klaytn Endpoint Node on Kubernetes
 
+쿠버네티스환경 위에 클레이튼 엔드포인트 노드를 돌리기위한 예제입니다.
+
 ## Dependencies
 
 
