@@ -15,5 +15,10 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/external-snaps
 - [external-snapshotter (snapshot-controller)](https://github.com/kubernetes-csi/external-snapshotter/)
 - [snapscheduler](https://github.com/backube/snapscheduler)
 
-## Requirements
-- EKS
+## System Requirements
+- [system-requirements](https://docs.klaytn.com/node/endpoint-node/system-requirements)
+
+## Test System Spec
+| vCPU | Memory (GiB) | Storage (GiB) | IOPS       | Volume Type |
+|------|--------------|---------------|------------|-------------|
+| 16   | 64           | \>= 3,000     | \>= 30,000 | io2         |
