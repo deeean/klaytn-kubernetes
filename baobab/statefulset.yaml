@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ken-baobab
+  namespace: baobab
+  labels:
+    app: ken-baobab
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ken-baobab
+  serviceName: ken-baobab
+
+  template:
+    metadata:
+      labels:
+        app: ken-baobab
+    spec:
+      terminationGracePeriodSeconds: 30
+
+      containers:
+        - name: ken-baobab
+          image: klaytn/klaytn:v1.7.3
+          imagePullPolicy: IfNotPresent
+          args:
+            - "ken"
+            - "--baobab"
+            - "--metrics"
+            - "--prometheus"
+            - "--multichannel"
+            - "--rpc"
+            - "--rpcapi=klay,miner,net,personal,rpc,txpool,web3"
+            - "--rpcport=8551"
+            - "--rpcaddr=0.0.0.0"
+            - "--rpccorsdomain=*"
+            - "--rpcvhosts=*"
+            - "--ws"
+            - "--wsapi=klay,miner,net,personal,rpc,txpool,web3"
+            - "--wsaddr=0.0.0.0"
+            - "--wsorigins=*"
+            - "--datadir=/kend/baobab"
+            - "--port=32323"
+            - "--subport=32324"
+            - "--srvtype=fasthttp"
+            - "--verbosity=3"
+            - "--syncmode=full"
+            - "--maxconnections=10"
+            - "--txpool.exec-slots.all=4096"
+            - "--txpool.nonexec-slots.all=4096"
+            - "--txpool.exec-slots.account=4096"
+            - "--txpool.nonexec-slots.account=4096"
+          ports:
+            - containerPort: 8551
+            - containerPort: 8552
+          livenessProbe:
+            httpGet:
+              path: "/healthz"
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 3
+          volumeMounts:
+            - name: kend
+              mountPath: /kend
+
+        - name: ken-healthchecker
+          image: margintop3498/klaytn-healthchecker:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RPC_URL
+              value: "http://localhost:8551"
+            - name: MAX_BLOCK_DIFFERENCE
+              value: "50"
+
+  volumeClaimTemplates:
+    - metadata:
+        name: kend
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "gp3-slow"
+        resources:
+          requests:
+            storage: 300Gi

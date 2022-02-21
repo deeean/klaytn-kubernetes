@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ken-baobab
+  namespace: baobab
+  labels:
+    app: ken-baobab
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ken-baobab
+  serviceName: ken-baobab
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  template:
+    metadata:
+      labels:
+        app: ken-baobab
+    spec:
+      terminationGracePeriodSeconds: 30
+
+      containers:
+        - name: ken-baobab
+          image: ubuntu:18.04
+          imagePullPolicy: IfNotPresent
+          command:
+            - "sleep"
+            - "31556736"
+          volumeMounts:
+            - name: kend
+              mountPath: /kend
+  volumeClaimTemplates:
+    - metadata:
+        name: kend
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: "gp3-slow"
+        resources:
+          requests:
+            storage: 300Gi

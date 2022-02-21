@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ken-baobab-ingress
+  namespace: baobab
+  annotations:
+    kubernetes.io/ingress.class: example
+spec:
+  rules:
+    - host: api.baobab.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ken-baobab-service
+                port:
+                  number: 80

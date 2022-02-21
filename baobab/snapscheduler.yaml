@@ -1,0 +1,11 @@
+apiVersion: snapscheduler.backube/v1
+kind: SnapshotSchedule
+metadata:
+  name: daily
+  namespace: baobab
+spec:
+  retention:
+    maxCount: 2
+  schedule: "0 0 * * *"
+  snapshotTemplate:
+    snapshotClassName: csi-aws-vsc

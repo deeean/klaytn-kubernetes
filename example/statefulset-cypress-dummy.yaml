@@ -21,7 +21,7 @@ spec:
       labels:
         app: ken-cypress
     spec:
-      terminationGracePeriodSeconds: 10
+      terminationGracePeriodSeconds: 30
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

@@ -8,8 +8,7 @@ metadata:
 spec:
   storageClassName: gp3
   dataSource:
-    # volume snapshot content name here
-    name:
+    name: # snapcontent name
     kind: VolumeSnapshot
     apiGroup: snapshot.storage.k8s.io
   accessModes:
