@@ -4,10 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "get-latest-block": "k6 run scripts/get-latest-block.ts --vus=100 --duration=5s"
+    "test": "jest"
   },
   "devDependencies": {
-    "@types/k6": "^0.36.0",
-    "prettier": "^2.5.1"
+    "@types/jest": "^27.4.0",
+    "caver-js": "^1.6.8",
+    "fetch-cookie": "^1.0.1",
+    "jest": "^27.5.1",
+    "prettier": "^2.5.1",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0"
   }
 }

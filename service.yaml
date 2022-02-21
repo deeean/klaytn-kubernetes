@@ -13,6 +13,10 @@ spec:
       protocol: TCP
       port: 8552
       targetPort: 8552
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
   selector:
     app: ken-cypress
   type: ClusterIP

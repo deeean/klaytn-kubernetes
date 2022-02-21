@@ -12,10 +12,7 @@ spec:
     matchLabels:
       app: ken-cypress
   serviceName: ken-cypress
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      partition: 0
+
   template:
     metadata:
       labels:
@@ -42,13 +39,13 @@ spec:
             - "--prometheus"
             - "--multichannel"
             - "--rpc"
-            - "--rpcapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
+            - "--rpcapi=klay,miner,net,personal,rpc,txpool,web3"
             - "--rpcport=8551"
             - "--rpcaddr=0.0.0.0"
             - "--rpccorsdomain=*"
             - "--rpcvhosts=*"
             - "--ws"
-            - "--wsapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
+            - "--wsapi=klay,miner,net,personal,rpc,txpool,web3"
             - "--wsaddr=0.0.0.0"
             - "--wsorigins=*"
             - "--datadir=/kend/cypress"
@@ -67,13 +64,25 @@ spec:
             - containerPort: 8552
           livenessProbe:
             httpGet:
-              path: "/"
-              port: 8551
-            initialDelaySeconds: 15
-            timeoutSeconds: 5
+              path: "/healthz"
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 3
           volumeMounts:
             - name: kend
               mountPath: /kend
+
+        - name: ken-healthchecker
+          image: margintop3498/klaytn-healthchecker:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RPC_URL
+              value: "http://localhost:8551"
+            - name: MAX_BLOCK_DIFFERENCE
+              value: "50"
+
   volumeClaimTemplates:
     - metadata:
         name: kend
