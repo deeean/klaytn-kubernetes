@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ken-ingress
+  name: ken-cypress-ingress
   namespace: cypress
   annotations:
     kubernetes.io/ingress.class: example
@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ken-service
+                name: ken-cypress-service
                 port:
                   number: 80

@@ -1,0 +1,13 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "get-latest-block": "k6 run ./scripts/get-latest-block.ts"
+  },
+  "devDependencies": {
+    "@types/k6": "^0.36.0",
+    "prettier": "^2.5.1"
+  }
+}

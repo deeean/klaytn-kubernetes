@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ken-service
+  name: ken-cypress-service
   namespace: cypress
 spec:
   ports:
@@ -14,5 +14,5 @@ spec:
       port: 8552
       targetPort: 8552
   selector:
-    app: ken
+    app: ken-cypress
   type: ClusterIP

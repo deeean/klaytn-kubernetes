@@ -62,9 +62,6 @@ spec:
             - "--txpool.nonexec-slots.all=4096"
             - "--txpool.exec-slots.account=4096"
             - "--txpool.nonexec-slots.account=4096"
-#            - "--sendertxhashindexing"
-#            - "--state.tries-in-memory=50"
-#            - "--state.trie-cache-limit=10240"
           ports:
             - containerPort: 8551
             - containerPort: 8552
