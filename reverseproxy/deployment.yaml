@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ken-reverseproxy
+  namespace: proxy
+  labels:
+    app: ken-reverseproxy
+spec:
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ken-reverseproxy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: ken-reverseproxy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: purpose
+                    operator: DoesNotExist
+      containers:
+        - name: ken-reverseproxy
+          image: margintop3498/klaytn-reverseproxy:v1.0.0
+#          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+          livenessProbe:
+            httpGet:
+              path: "/"
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 15
+          envFrom:
+            - secretRef:
+                name: ken-reverseproxy-secret

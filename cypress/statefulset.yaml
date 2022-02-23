@@ -62,7 +62,7 @@ spec:
           ports:
             - containerPort: 8551
             - containerPort: 8552
-          livenessProbe:
+          readinessProbe:
             httpGet:
               path: "/healthz"
               port: 3000
@@ -81,7 +81,7 @@ spec:
             - name: RPC_URL
               value: "http://localhost:8551"
             - name: MAX_BLOCK_DIFFERENCE
-              value: "50"
+              value: "30"
 
   volumeClaimTemplates:
     - metadata:

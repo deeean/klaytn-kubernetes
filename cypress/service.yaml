@@ -7,7 +7,7 @@ spec:
   ports:
     - name: rpc
       protocol: TCP
-      port: 80
+      port: 8551
       targetPort: 8551
     - name: ws
       protocol: TCP

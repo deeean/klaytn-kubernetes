@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ken-reverseproxy-ingress
+  namespace: proxy
+  annotations:
+    kubernetes.io/ingress.class:
+spec:
+  rules:
+    - host: node-api.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ken-reverseproxy-service
+                port:
+                  number: 80

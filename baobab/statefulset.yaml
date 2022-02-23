@@ -19,7 +19,6 @@ spec:
         app: ken-baobab
     spec:
       terminationGracePeriodSeconds: 30
-
       containers:
         - name: ken-baobab
           image: klaytn/klaytn:v1.7.3
@@ -31,13 +30,13 @@ spec:
             - "--prometheus"
             - "--multichannel"
             - "--rpc"
-            - "--rpcapi=klay,miner,net,personal,rpc,txpool,web3"
+            - "--rpcapi=admin,klay,miner,net,personal,rpc,txpool,web3"
             - "--rpcport=8551"
             - "--rpcaddr=0.0.0.0"
             - "--rpccorsdomain=*"
             - "--rpcvhosts=*"
             - "--ws"
-            - "--wsapi=klay,miner,net,personal,rpc,txpool,web3"
+            - "--wsapi=admin,klay,miner,net,personal,rpc,txpool,web3"
             - "--wsaddr=0.0.0.0"
             - "--wsorigins=*"
             - "--datadir=/kend/baobab"
@@ -54,7 +53,7 @@ spec:
           ports:
             - containerPort: 8551
             - containerPort: 8552
-          livenessProbe:
+          readinessProbe:
             httpGet:
               path: "/healthz"
               port: 3000
@@ -73,7 +72,7 @@ spec:
             - name: RPC_URL
               value: "http://localhost:8551"
             - name: MAX_BLOCK_DIFFERENCE
-              value: "50"
+              value: "30"
 
   volumeClaimTemplates:
     - metadata:
