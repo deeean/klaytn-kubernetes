@@ -1,11 +1,11 @@
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: ken-reverseproxy
+  name: ken-reverseproxy-hpa
   namespace: proxy
 spec:
-  minReplicas: 2
-  maxReplicas: 4
+  minReplicas: 4
+  maxReplicas: 8
   metrics:
     - resource:
         name: cpu

@@ -30,8 +30,7 @@ spec:
       containers:
         - name: ken-reverseproxy
           image: margintop3498/klaytn-reverseproxy:v1.0.0
-#          imagePullPolicy: IfNotPresent
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           resources:
@@ -42,8 +41,8 @@ spec:
             httpGet:
               path: "/"
               port: 3000
-            initialDelaySeconds: 15
-            periodSeconds: 15
+            initialDelaySeconds: 30
+            periodSeconds: 10
           envFrom:
             - secretRef:
                 name: ken-reverseproxy-secret
