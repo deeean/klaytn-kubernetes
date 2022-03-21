@@ -7,7 +7,7 @@ metadata:
     app: ken-baobab
 spec:
   revisionHistoryLimit: 2
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ken-baobab
@@ -18,10 +18,17 @@ spec:
       labels:
         app: ken-baobab
     spec:
-      terminationGracePeriodSeconds: 30
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: purpose
+                    operator: DoesNotExist
+
       containers:
         - name: ken-baobab
-          image: klaytn/klaytn:v1.7.3
+          image: klaytn/klaytn:v1.8.1
           imagePullPolicy: IfNotPresent
           args:
             - "ken"
@@ -30,7 +37,7 @@ spec:
             - "--prometheus"
             - "--multichannel"
             - "--rpc"
-            - "--rpcapi=admin,klay,miner,net,personal,rpc,txpool,web3"
+            - "--rpcapi=admin,debug,klay,miner,net,personal,rpc,txpool,web3"
             - "--rpcport=8551"
             - "--rpcaddr=0.0.0.0"
             - "--rpccorsdomain=*"
@@ -57,7 +64,7 @@ spec:
             httpGet:
               path: "/healthz"
               port: 3000
-            initialDelaySeconds: 30
+            initialDelaySeconds: 5
             periodSeconds: 3
           volumeMounts:
             - name: kend
@@ -72,7 +79,7 @@ spec:
             - name: RPC_URL
               value: "http://localhost:8551"
             - name: MAX_BLOCK_DIFFERENCE
-              value: "30"
+              value: "200"
 
   volumeClaimTemplates:
     - metadata:

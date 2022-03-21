@@ -1,9 +1,9 @@
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshot
 metadata:
-  name: 20220218-kend-ken-cypress-0
-  namespace: cypress
+  name: 20220223-kend-ken-baobab-0
+  namespace: baobab
 spec:
   volumeSnapshotClassName: csi-aws-vsc
   source:
-    persistentVolumeClaimName: kend-ken-cypress-0
+    persistentVolumeClaimName: kend-ken-baobab-0

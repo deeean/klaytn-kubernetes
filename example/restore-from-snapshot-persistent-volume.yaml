@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kend-ken-cypress-1
-  namespace: cypress
+  name: kend-ken-baobab-1
+  namespace: baobab
   labels:
     app: ken
 spec:
-  storageClassName: gp3
+  storageClassName: gp3-slow
   dataSource:
-    name: # snapcontent name
+    name: snapcontent-fc7e2f8c-d579-464f-ab49-a74d228086c0
     kind: VolumeSnapshot
     apiGroup: snapshot.storage.k8s.io
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 3000Gi
+      storage: 300Gi
