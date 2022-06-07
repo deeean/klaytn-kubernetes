@@ -59,6 +59,7 @@ spec:
             - "--txpool.nonexec-slots.all=4096"
             - "--txpool.exec-slots.account=4096"
             - "--txpool.nonexec-slots.account=4096"
+            - "--rpc.eth.noncompatible"
           ports:
             - containerPort: 8551
             - containerPort: 8552
